@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✏️ 수정: 브라우저 탭에 표시될 제목 -->
+  <title>교토 봄 여행 2024</title>
+
+  <!-- 구글 폰트 불러오기 (인터넷 연결 필요) -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;900&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============================================
+       CSS 변수: 색상·폰트를 한 곳에서 관리
+       여기만 바꾸면 전체 디자인이 바뀜
+    ============================================= */
+    :root {
+      --primary:   #2d5016;   /* ✏️ 포인트 컬러 (짙은 녹색) */
+      --accent:    #8fb84a;   /* ✏️ 보조 색상 (연한 녹색) */
+      --bg:        #f8f6f0;   /* 배경색 */
+      --card:      #ffffff;   /* 카드 배경 */
+      --text:      #2a2a2a;   /* 본문 색 */
+      --muted:     #777;      /* 보조 텍스트 */
+      --border:    #e2ddd5;   /* 테두리 */
+    }
+
+    /* 기본 리셋 */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── 히어로 (상단 배너) ── */
+    .hero {
+      /* ✏️ 배경 이미지 URL을 바꾸세요. 없으면 gradient만 남김 */
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.6) 100%),
+        url('https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=1200&q=80') center/cover;
+      color: white;
+      text-align: center;
+      padding: 90px 24px 70px;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(28px, 6vw, 52px);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .hero-meta span::before { margin-right: 6px; }
+
+    /* ── 레이아웃 컨테이너 ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ── 섹션 공통 ── */
+    section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+
+    .section-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ── 요약 정보 카드 ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 0;
+    }
+
+    .info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .info-card .icon { font-size: 24px; margin-bottom: 8px; }
+    .info-card .label { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .info-card .value { font-size: 15px; font-weight: 500; }
+
+    /* ── 일정표 ── */
+    .day-block { margin-bottom: 32px; }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .day-num {
+      background: var(--primary);
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .day-title {
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    /* 타임라인 아이템 */
+    .timeline { position: relative; padding-left: 28px; }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px; top: 6px; bottom: 6px;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .tl-item {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -24px; top: 6px;
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 2px solid var(--card);
+      outline: 2px solid var(--accent);
+    }
+
+    .tl-time {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 2px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .tl-place {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .tl-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .tl-link {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--primary);
+    }
+
+    /* ── 장소 카드 그리드 ── */
+    .place-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .place-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .place-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    /* ✏️ 이미지 없을 때 색상 박스로 대체 */
+    .place-img {
+      height: 130px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+
+    .place-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .place-body { padding: 14px 16px; }
+    .place-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .place-cat  { font-size: 11px; color: var(--accent); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .place-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .place-footer {
+      padding: 10px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .place-addr { font-size: 11px; color: var(--muted); }
+
+    .map-btn {
+      font-size: 12px;
+      color: white;
+      background: var(--primary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    /* ── 준비물 체크리스트 ── */
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+      user-select: none;
+    }
+
+    .check-item:hover { background: #f0ede6; }
+
+    .check-item input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 16px; height: 16px;
+      cursor: pointer;
+    }
+
+    /* ── 메모 박스 ── */
+    .memo {
+      background: #fffdf5;
+      border: 1px solid #e8dfc0;
+      border-left: 4px solid #d4a820;
+      border-radius: 8px;
+      padding: 18px 20px;
+      font-size: 14px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+    }
+
+    /* ── 푸터 ── */
+    footer {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    /* 반응형: 모바일에서도 잘 보이도록 */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 20px 50px; }
+      .info-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ====================================================
+     히어로 배너
+     ✏️ 제목, 날짜, 인원, 장소를 바꾸세요
+==================================================== -->
+<div class="hero">
+  <div class="hero-label">여행 계획</div>
+  <h1>교토 봄 여행 🌸<br>2024</h1>
+  <div class="hero-meta">
+    <span>📅 4월 5일 – 8일 (3박 4일)</span>
+    <span>👥 4명</span>
+    <span>📍 일본 교토</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 요약 정보 -->
+  <section>
+    <h2 class="section-title">✈️ 여행 개요</h2>
+    <div class="info-grid">
+      <!-- ✏️ 각 카드의 icon, label, value를 바꾸세요 -->
+      <div class="info-card">
+        <div class="icon">✈️</div>
+        <div class="label">항공</div>
+        <div class="value">인천 → 간사이<br><small style="color:var(--muted);font-size:12px">KE723 / 07:30</small></div>
+      </div>
+      <div class="info-card">
+        <div class="icon">🏨</div>
+        <div class="label">숙소</div>
+        <div class="value">기온 료칸<br><small style="color:var(--muted);font-size:12px">체크인 15:00</small></div>
+      </div>
+      <div class="info-card">
+        <div class="icon">💴</div>
+        <div class="label">예산 (1인)</div>
+        <div class="value">약 80만원</div>
+      </div>
+      <div class="info-card">
+        <div class="icon">🌡️</div>
+        <div class="label">예상 날씨</div>
+        <div class="value">12–19°C<br><small style="color:var(--muted);font-size:12px">벚꽃 개화 시기</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 일정표 -->
+  <section>
+    <h2 class="section-title">📅 일정표</h2>
+
+    <!-- ✏️ Day 1 -->
+    <div class="day-block">
+      <div class="day-header">
+        <span class="day-num">Day 1 · 4월 5일</span>
+        <span class="day-title">도착 & 기온 거리</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-time">07:30</div>
+          <div class="tl-place">인천공항 출발</div>
+          <div class="tl-desc">KE723편 · 탑승구 D23 · 30분 전까지 집결</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">09:45</div>
+          <div class="tl-place">간사이 국제공항 도착</div>
+          <div class="tl-desc">입국심사 후 하루카 특급 이용 → 교토역 (75분)</div>
+          <a class="tl-link" href="https://www.westjr.co.jp/global/kr/ticket/pass/haruka/" target="_blank">하루카 티켓 정보 →</a>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">13:00</div>
+          <div class="tl-place">점심 · 니시키 시장</div>
+          <div class="tl-desc">교토의 부엌. 다코야키, 두부 꼬치 등 길거리 음식 투어</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">15:00</div>
+          <div class="tl-place">숙소 체크인</div>
+          <div class="tl-desc">기온 전통 료칸 · 짐 정리 후 유카타 체험</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">18:00</div>
+          <div class="tl-place">기온 거리 야경</div>
+          <div class="tl-desc">해 질 녘 마이코 만남 가능성 높음 · 사진 명소</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✏️ Day 2 -->
+    <div class="day-block">
+      <div class="day-header">
+        <span class="day-num">Day 2 · 4월 6일</span>
+        <span class="day-title">아라시야마 & 사원</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-time">08:00</div>
+          <div class="tl-place">아라시야마 대나무 숲</div>
+          <div class="tl-desc">오전 일찍 가야 사람이 적음. 도게츠쿄 다리 산책</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">11:00</div>
+          <div class="tl-place">텐류지 정원</div>
+          <div class="tl-desc">세계문화유산 선종 정원 · 벚꽃 시즌 최고 명소</div>
+          <a class="tl-link" href="https://www.tenryuji.com/" target="_blank">공식 사이트 →</a>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">14:00</div>
+          <div class="tl-place">후시미이나리 신사</div>
+          <div class="tl-desc">천 개의 토리이 문. 정상까지 왕복 2시간 · 편한 신발 필수</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✏️ 필요시 Day 3, 4 동일 패턴으로 추가 -->
+  </section>
+
+  <!-- 추천 장소 -->
+  <section>
+    <h2 class="section-title">📍 꼭 가볼 곳</h2>
+    <div class="place-grid">
+
+      <!-- ✏️ 카드 복사해서 장소 추가 -->
+      <div class="place-card">
+        <div class="place-img">🦊</div>
+        <div class="place-body">
+          <div class="place-cat">신사</div>
+          <div class="place-name">후시미이나리 신사</div>
+          <div class="place-desc">천 개의 붉은 토리이 문으로 유명. 일몰 후 야경도 아름다움.</div>
+        </div>
+        <div class="place-footer">
+          <span class="place-addr">📍 후카쿠사 야부노우치</span>
+          <a class="map-btn" href="https://maps.google.com/?q=Fushimi+Inari+Shrine" target="_blank">지도</a>
+        </div>
+      </div>
+
+      <div class="place-card">
+        <div class="place-img">🎋</div>
+        <div class="place-body">
+          <div class="place-cat">자연</div>
+          <div class="place-name">아라시야마 대나무 숲</div>
+          <div class="place-desc">아침 일찍 방문 추천. 바람 소리가 특별한 경험.</div>
+        </div>
+        <div class="place-footer">
+          <span class="place-addr">📍 아라시야마</span>
+          <a class="map-btn" href="https://maps.google.com/?q=Arashiyama+Bamboo+Grove" target="_blank">지도</a>
+        </div>
+      </div>
+
+      <div class="place-card">
+        <div class="place-img">🍵</div>
+        <div class="place-body">
+          <div class="place-cat">문화</div>
+          <div class="place-name">기온 거리</div>
+          <div class="place-desc">전통 찻집과 마이코 문화. 해 질 녘 방문이 가장 아름다움.</div>
+        </div>
+        <div class="place-footer">
+          <span class="place-addr">📍 기온 히가시야마</span>
+          <a class="map-btn" href="https://maps.google.com/?q=Gion+Kyoto" target="_blank">지도</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 준비물 체크리스트 -->
+  <section>
+    <h2 class="section-title">🎒 준비물 체크리스트</h2>
+    <div class="checklist">
+      <!-- ✏️ 항목 추가/삭제 자유롭게 -->
+      <label class="check-item"><input type="checkbox"> 여권 (유효기간 확인)</label>
+      <label class="check-item"><input type="checkbox"> 엔화 환전</label>
+      <label class="check-item"><input type="checkbox"> 포켓 와이파이 예약</label>
+      <label class="check-item"><input type="checkbox"> 하루카 티켓 예약</label>
+      <label class="check-item"><input type="checkbox"> 편한 걷기 신발</label>
+      <label class="check-item"><input type="checkbox"> 얇은 겉옷 (일교차)</label>
+      <label class="check-item"><input type="checkbox"> 카메라 / 충전기</label>
+      <label class="check-item"><input type="checkbox"> 상비약</label>
+      <label class="check-item"><input type="checkbox"> 숙소 예약 확인서</label>
+      <label class="check-item"><input type="checkbox"> 교통카드 (ICOCA)</label>
+    </div>
+  </section>
+
+  <!-- 메모 / 공지 -->
+  <section>
+    <h2 class="section-title">📝 공지 & 메모</h2>
+    <!-- ✏️ 자유롭게 메모 작성 -->
+    <div class="memo">⚠️  벚꽃 시즌이라 숙소·기차 매우 혼잡. 아직 예약 안 한 분은 서둘러 주세요!
+
+📌  집합 장소: 인천공항 3층 D카운터 앞
+📌  공항 미팅 시간: 4월 5일 오전 06:00
+
+💬  단톡방에서 최신 정보 공유 중. 모르는 것 있으면 거기서 질문해 주세요.</div>
+  </section>
+
+</div><!-- /container -->
+
+<footer>
+  <!-- ✏️ 이름과 날짜 수정 -->
+  ✈️ 교토 봄 여행 2024 · 정리: 홍길동 · 마지막 수정 2024.03.20
+</footer>
+
+</body>
+</html>
