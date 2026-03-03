@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✏️ 수정: 행사 이름 -->
+  <title>빛의 궁전 — 미디어 아트 전시 2024</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Black+Han+Sans&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* ✏️ 포인트 컬러 바꾸기 — 행사 분위기에 맞게 */
+      --primary:  #1a1035;   /* 짙은 남색 (미디어아트 분위기) */
+      --accent:   #9b59b6;   /* 보라 포인트 */
+      --accent2:  #e74c8b;   /* 핑크 포인트 */
+      --bg:       #f5f3fa;
+      --card:     #ffffff;
+      --text:     #1e1e2e;
+      --muted:    #6b6480;
+      --border:   #e0daea;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── 히어로 ── */
+    .hero {
+      background: var(--primary);
+      color: white;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      min-height: 340px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* 배경 장식 원 */
+    .hero::before, .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.15;
+    }
+    .hero::before {
+      width: 400px; height: 400px;
+      background: var(--accent);
+      top: -100px; right: -80px;
+    }
+    .hero::after {
+      width: 250px; height: 250px;
+      background: var(--accent2);
+      bottom: -80px; left: 10%;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      width: 100%;
+    }
+
+    .event-type {
+      display: inline-block;
+      background: var(--accent);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: clamp(28px, 6vw, 56px);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      opacity: 0.8;
+      font-weight: 300;
+      max-width: 520px;
+    }
+
+    /* ── 핵심 정보 바 ── */
+    .info-bar {
+      background: var(--primary);
+      color: white;
+    }
+
+    .info-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .info-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 24px 16px 0;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      margin-right: 24px;
+      font-size: 14px;
+    }
+
+    .info-pill:last-child { border-right: none; margin-right: 0; }
+    .info-pill .icon { font-size: 18px; }
+    .info-pill .meta { opacity: 0.65; font-size: 11px; }
+
+    /* ── 본문 레이아웃 ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section { padding: 44px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 22px;
+    }
+
+    /* ── 행사 소개 ── */
+    .intro-text {
+      font-size: 15px;
+      line-height: 1.9;
+      color: #3a3550;
+      max-width: 640px;
+    }
+
+    /* ── 하이라이트 카드 ── */
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .highlight-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 18px;
+      border-top: 4px solid var(--accent);
+      transition: transform 0.2s;
+    }
+
+    .highlight-card:hover { transform: translateY(-3px); }
+
+    .hl-icon { font-size: 28px; margin-bottom: 10px; }
+    .hl-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .hl-desc  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* ── 세부 일정 ── */
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .schedule-table th {
+      background: var(--primary);
+      color: white;
+      padding: 10px 16px;
+      text-align: left;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .schedule-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .schedule-table tr:last-child td { border-bottom: none; }
+    .schedule-table tr:nth-child(even) td { background: #faf8ff; }
+
+    .schedule-table .time { color: var(--accent); font-weight: 500; white-space: nowrap; }
+
+    /* ── 접근 정보 ── */
+    .access-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 580px) { .access-grid { grid-template-columns: 1fr; } }
+
+    .access-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .access-label {
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .access-value {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── 가격표 ── */
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .price-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .price-card.featured {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, #f8f3ff, #fff);
+    }
+
+    .price-type { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .price-amount { font-size: 22px; font-weight: 700; color: var(--primary); }
+    .price-note { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    /* ── CTA 버튼 ── */
+    .cta-section {
+      text-align: center;
+      padding: 48px 24px;
+      background: var(--primary);
+      color: white;
+      border-radius: 16px;
+      margin: 32px 0;
+    }
+
+    .cta-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+    .cta-sub   { font-size: 14px; opacity: 0.75; margin-bottom: 24px; }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent2);
+      color: white;
+      padding: 14px 36px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      display: inline-block;
+      border: 2px solid rgba(255,255,255,0.4);
+      color: white;
+      padding: 13px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 14px;
+      margin-left: 12px;
+      transition: background 0.2s;
+    }
+
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── 태그 ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .tag {
+      background: #ede8f7;
+      color: var(--accent);
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px 20px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .info-bar-inner { flex-direction: column; }
+      .info-pill { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; margin-right: 0; }
+      .info-pill:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ====================================================
+     히어로
+     ✏️ event-type, h1, hero-sub 수정
+==================================================== -->
+<div class="hero">
+  <div class="hero-inner">
+    <span class="event-type">✨ 미디어 아트 전시</span>
+    <!-- ✏️ 전시/행사 제목 -->
+    <h1>빛의 궁전<br>Palace of Light</h1>
+    <p class="hero-sub">빛과 소리로 만들어낸 몰입형 미디어 아트 — 서울 최초 전시</p>
+    <div class="tags">
+      <!-- ✏️ 관련 태그 추가 -->
+      <span class="tag">#미디어아트</span>
+      <span class="tag">#몰입형전시</span>
+      <span class="tag">#인스타명소</span>
+      <span class="tag">#가족추천</span>
+    </div>
+  </div>
+</div>
+
+<!-- 핵심 정보 바 -->
+<div class="info-bar">
+  <div class="info-bar-inner">
+    <!-- ✏️ 날짜, 장소, 시간, 가격 수정 -->
+    <div class="info-pill">
+      <span class="icon">📅</span>
+      <div>
+        <div>2024.03.15 – 06.30</div>
+        <div class="meta">전시 기간</div>
+      </div>
+    </div>
+    <div class="info-pill">
+      <span class="icon">📍</span>
+      <div>
+        <div>동대문디자인플라자 (DDP)</div>
+        <div class="meta">서울 중구 을지로 281</div>
+      </div>
+    </div>
+    <div class="info-pill">
+      <span class="icon">⏰</span>
+      <div>
+        <div>10:00 – 20:00</div>
+        <div class="meta">매주 월요일 휴관</div>
+      </div>
+    </div>
+    <div class="info-pill">
+      <span class="icon">🎟️</span>
+      <div>
+        <div>성인 18,000원~</div>
+        <div class="meta">사전예매 20% 할인</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 전시 소개 -->
+  <section>
+    <h2 class="section-title">전시 소개</h2>
+    <!-- ✏️ 행사 설명 -->
+    <p class="intro-text">
+      &lt;빛의 궁전&gt;은 프랑스 팀 Atelier des Lumières가 처음 선보인 몰입형 미디어 아트의 서울 버전입니다. 클림트, 샤갈, 모네의 명화를 2천여 개의 빔 프로젝터로 재해석한 초대형 공간 전시로, 관람객이 그림 속에 들어온 듯한 경험을 선사합니다.
+    </p>
+    <p class="intro-text" style="margin-top: 14px;">
+      상영 시간은 약 35분이며, 당일 복수 관람 가능합니다. 전시 공간 내 음악과 빛이 함께 움직이며, 아이부터 어른까지 즐길 수 있습니다.
+    </p>
+  </section>
+
+  <!-- 하이라이트 -->
+  <section>
+    <h2 class="section-title">🌟 관람 포인트</h2>
+    <div class="highlight-grid">
+      <!-- ✏️ 카드 내용 수정 -->
+      <div class="highlight-card">
+        <div class="hl-icon">🎨</div>
+        <div class="hl-title">클림트 황금빛 세계</div>
+        <div class="hl-desc">〈키스〉, 〈유디트〉 등 클림트 대표작을 벽면 전체로 감상. 황금빛 패턴이 실제로 흐르는 듯한 느낌.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="hl-icon">🌊</div>
+        <div class="hl-title">모네의 수련 연못</div>
+        <div class="hl-desc">바닥에 투영되는 수련 연못 위를 걸으며 인상주의를 몸으로 체험.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="hl-icon">🎵</div>
+        <div class="hl-title">입체 사운드</div>
+        <div class="hl-desc">360도 사운드 시스템으로 공간 전체가 진동하는 청각 경험. 이어폰 없이도 완전 몰입.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 프로그램 일정 -->
+  <section>
+    <h2 class="section-title">📋 상영 일정</h2>
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>시간</th>
+          <th>프로그램</th>
+          <th>비고</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ✏️ 행 추가/수정 -->
+        <tr>
+          <td class="time">10:00 / 11:00</td>
+          <td>메인 전시 &lt;빛의 궁전&gt;</td>
+          <td>35분 / 정시 시작</td>
+        </tr>
+        <tr>
+          <td class="time">12:00 – 13:30</td>
+          <td>🍴 점심시간 (관람객 휴식)</td>
+          <td>카페테리아 운영</td>
+        </tr>
+        <tr>
+          <td class="time">14:00</td>
+          <td>아티스트 토크 (주말 한정)</td>
+          <td>별도 신청 필요</td>
+        </tr>
+        <tr>
+          <td class="time">14:30 / 16:30 / 18:30</td>
+          <td>메인 전시 &lt;빛의 궁전&gt;</td>
+          <td>마지막 입장 19:30</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 입장권 -->
+  <section>
+    <h2 class="section-title">🎟️ 입장권</h2>
+    <div class="price-grid">
+      <!-- ✏️ 가격 수정 -->
+      <div class="price-card">
+        <div class="price-type">어린이 (3–12세)</div>
+        <div class="price-amount">12,000원</div>
+        <div class="price-note">현장 구매</div>
+      </div>
+      <div class="price-card featured">
+        <div class="price-type">성인</div>
+        <div class="price-amount">18,000원</div>
+        <div class="price-note">현장 구매<br>사전예매 14,400원</div>
+      </div>
+      <div class="price-card">
+        <div class="price-type">경로·장애인</div>
+        <div class="price-amount">10,000원</div>
+        <div class="price-note">신분증 지참</div>
+      </div>
+      <div class="price-card">
+        <div class="price-type">단체 (10인↑)</div>
+        <div class="price-amount">14,000원</div>
+        <div class="price-note">사전 전화 예약</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 오시는 길 -->
+  <section>
+    <h2 class="section-title">🗺️ 오시는 길</h2>
+    <div class="access-grid">
+      <div class="access-card">
+        <div class="access-label">지하철</div>
+        <div class="access-value">
+          🚇 2·4·5호선 <strong>동대문역사문화공원역</strong><br>
+          1번 출구에서 도보 5분
+        </div>
+      </div>
+      <div class="access-card">
+        <div class="access-label">버스</div>
+        <div class="access-value">
+          🚌 간선 104, 261, 420번<br>
+          동대문디자인플라자 정류장 하차
+        </div>
+      </div>
+      <div class="access-card">
+        <div class="access-label">주차</div>
+        <div class="access-value">
+          🚗 DDP 지하주차장 이용<br>
+          최초 30분 무료 / 이후 10분당 500원
+        </div>
+      </div>
+      <div class="access-card">
+        <div class="access-label">주소</div>
+        <div class="access-value">
+          📍 서울 중구 을지로 281<br>
+          동대문디자인플라자 (DDP)<br>
+          <a href="https://maps.google.com/?q=DDP+Seoul" target="_blank" style="color: var(--accent); font-size:13px;">구글 지도 열기 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-title">같이 가실 분? 🙋</div>
+    <div class="cta-sub">사전 예매하면 20% 할인 · 주말은 매진 빠름<br>3월 말 주말 함께 가실 분 카톡 주세요!</div>
+    <!-- ✏️ 링크와 버튼 텍스트 수정 -->
+    <a class="btn-primary" href="#" target="_blank">사전 예매하기</a>
+    <a class="btn-secondary" href="#" target="_blank">공식 사이트</a>
+  </div>
+
+</div>
+
+<footer>
+  <!-- ✏️ 수정 -->
+  🎨 빛의 궁전 전시 정보 · 정리: 홍길동 · 2024.03.10
+</footer>
+
+</body>
+</html>
