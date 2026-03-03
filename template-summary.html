@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✏️ 수정: 요약 제목 -->
+  <title>AI가 일자리를 빼앗는다? — 맥킨지 보고서 요약</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* ✏️ 리포트 = 차분한 네이비/청록 / 유튜브 요약 = 빨강 계열로 바꿔도 됨 */
+      --primary: #0f2744;
+      --accent:  #1a6bb5;
+      --accent2: #e8a020;
+      --bg:      #f7f9fc;
+      --card:    #ffffff;
+      --text:    #1a1e2e;
+      --muted:   #6b7280;
+      --border:  #dde3ec;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── 상단 메타 바 ── */
+    .meta-bar {
+      background: var(--primary);
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      padding: 10px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meta-bar span { display: flex; align-items: center; gap: 6px; }
+
+    /* ── 히어로 ── */
+    .hero {
+      background: var(--primary);
+      color: white;
+      padding: 52px 24px 48px;
+    }
+
+    .hero-inner { max-width: 760px; margin: 0 auto; }
+
+    /* ✏️ 타입 배지: 리포트 / 유튜브 / 뉴스 / 책 등 바꾸기 */
+    .type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(22px, 4.5vw, 38px);
+      line-height: 1.3;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+
+    /* 원본 링크 버튼 */
+    .source-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.35);
+      color: white;
+      padding: 9px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+
+    .source-btn:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── 컨테이너 ── */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+
+    /* ── 핵심 요약 (큰 카드) ── */
+    .tldr {
+      background: linear-gradient(135deg, #e8f3ff, #f0f7ff);
+      border: 1px solid #b8d4f0;
+      border-left: 5px solid var(--accent);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin: 28px 0 0;
+    }
+
+    .tldr-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .tldr-text {
+      font-size: 15px;
+      line-height: 1.85;
+      color: #1a2a3a;
+    }
+
+    /* ── 핵심 포인트 ── */
+    .points { display: grid; gap: 14px; }
+
+    .point {
+      display: flex;
+      gap: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 18px;
+      transition: box-shadow 0.2s;
+    }
+
+    .point:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+
+    .point-num {
+      background: var(--accent);
+      color: white;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .point-body {}
+    .point-title { font-size: 15px; font-weight: 600; margin-bottom: 5px; }
+    .point-desc  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ── 인용구 ── */
+    .quote {
+      background: #fffbf0;
+      border: 1px solid #f0dea0;
+      border-left: 4px solid var(--accent2);
+      border-radius: 0 8px 8px 0;
+      padding: 18px 22px;
+      margin: 20px 0;
+    }
+
+    .quote-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #4a3800;
+      margin-bottom: 8px;
+    }
+
+    .quote-source { font-size: 12px; color: var(--muted); }
+
+    /* ── 데이터 테이블 ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .data-table th {
+      background: var(--primary);
+      color: white;
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .data-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: #f8fafd; }
+
+    .data-table .highlight { color: var(--accent); font-weight: 600; }
+    .data-table .warn { color: #c0392b; font-weight: 600; }
+    .data-table .ok   { color: #27ae60; font-weight: 600; }
+
+    /* ── 타임라인 (유튜브 챕터 / 보고서 섹션) ── */
+    .chapter-list { display: grid; gap: 10px; }
+
+    .chapter {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 12px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .chapter-time {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      background: #e8f3ff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .chapter-body {}
+    .chapter-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+    .chapter-desc  { font-size: 12px; color: var(--muted); }
+
+    /* ── 관련 링크 ── */
+    .link-list { display: grid; gap: 10px; }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .link-item:hover { border-color: var(--accent); }
+
+    .link-icon { font-size: 20px; flex-shrink: 0; }
+    .link-title { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+    .link-url   { font-size: 11px; color: var(--muted); }
+    .link-arrow { margin-left: auto; color: var(--muted); font-size: 16px; }
+
+    /* ── 내 코멘트 박스 ── */
+    .my-comment {
+      background: #f0faf4;
+      border: 1px solid #a8d8b8;
+      border-left: 4px solid #27ae60;
+      border-radius: 0 10px 10px 0;
+      padding: 18px 22px;
+      margin-top: 28px;
+    }
+
+    .comment-label {
+      font-size: 11px;
+      color: #27ae60;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .comment-text { font-size: 14px; line-height: 1.8; }
+
+    /* ── 태그 ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .tag {
+      background: #e8f0f8;
+      color: var(--accent);
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px 20px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 40px 20px; }
+      .meta-bar { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 상단 메타 -->
+<div class="meta-bar">
+  <!-- ✏️ 메타 정보 수정 -->
+  <span>📎 요약 유형: 리포트</span>
+  <span>📅 원본 발행: 2024.01.15 &nbsp;·&nbsp; ✍️ 요약: 홍길동 &nbsp;·&nbsp; 📖 읽는 시간: 약 5분</span>
+</div>
+
+<!-- 히어로 -->
+<div class="hero">
+  <div class="hero-inner">
+    <!-- ✏️ 타입 변경: 📄 리포트 / ▶️ 유튜브 / 📰 뉴스 / 📚 책 -->
+    <span class="type-badge">📄 리포트 요약</span>
+
+    <!-- ✏️ 제목 -->
+    <h1>AI가 일자리를 빼앗는다?<br>맥킨지 〈AI 자동화와 미래 노동〉 보고서 요약</h1>
+
+    <div class="hero-meta">
+      <!-- ✏️ 원본 출처 정보 -->
+      <span>📌 원본: McKinsey Global Institute</span>
+      <span>📄 130페이지 → 핵심만 5분 요약</span>
+    </div>
+
+    <!-- ✏️ 원본 링크 -->
+    <a class="source-btn" href="https://www.mckinsey.com" target="_blank">
+      📎 원본 보고서 보기 →
+    </a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- TL;DR 핵심 요약 -->
+  <section>
+    <h2 class="section-title">한 줄 요약</h2>
+    <div class="tldr">
+      <div class="tldr-label">TL;DR</div>
+      <!-- ✏️ 핵심 요약 1~3문장 -->
+      <p class="tldr-text">
+        2030년까지 전 세계 직업의 <strong>약 30%</strong>가 자동화 위험에 노출되지만, 동시에 새로운 직업이 창출됩니다. 단순 반복 업무는 대체되고, 창의성·대인관계·전문 기술 직종은 오히려 수요가 증가합니다. <strong>핵심은 재교육(reskilling)</strong>이며, 이를 위한 정책과 개인의 대응이 관건입니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 핵심 포인트 -->
+  <section>
+    <h2 class="section-title">핵심 포인트</h2>
+    <div class="points">
+      <!-- ✏️ 포인트 추가/수정 (번호 자동 표시) -->
+      <div class="point">
+        <div class="point-num">1</div>
+        <div class="point-body">
+          <div class="point-title">2030년까지 전 세계 3억 명 영향</div>
+          <div class="point-desc">선진국 중심으로 사무직·서비스직 일자리 대규모 재편. 한국은 OECD 중 자동화 노출도 상위권. 특히 제조업·금융·물류 분야 집중.</div>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="point-num">2</div>
+        <div class="point-body">
+          <div class="point-title">없어지는 직업 vs 새로 생기는 직업</div>
+          <div class="point-desc">사라지는 쪽: 데이터 입력원, 콜센터 상담원, 단순 회계 처리. 새로 뜨는 쪽: AI 트레이너, 데이터 해석가, 디지털 전환 컨설턴트.</div>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="point-num">3</div>
+        <div class="point-body">
+          <div class="point-title">생성형 AI가 기존 예측을 앞당김</div>
+          <div class="point-desc">ChatGPT 등장 이후 지식노동자 영역(법률, 의료, 코딩)까지 위협. 2023년 보고서 업데이트에서 영향 범위 45% 상향 조정.</div>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="point-num">4</div>
+        <div class="point-body">
+          <div class="point-title">승자는 'AI와 협력하는 사람'</div>
+          <div class="point-desc">AI를 도구로 활용하는 인력 생산성은 최대 40% 향상. 단순 대체 공포보다 활용 능력 확보가 핵심 전략.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 인용구 -->
+    <div class="quote">
+      <p class="quote-text">"AI는 직업을 빼앗는 것이 아니라 직업의 내용을 바꾼다. 문제는 그 전환 속도를 사람과 사회가 따라갈 수 있느냐다."</p>
+      <span class="quote-source">— McKinsey Global Institute, 2024 보고서 p.47</span>
+    </div>
+  </section>
+
+  <!-- 데이터 테이블 -->
+  <section>
+    <h2 class="section-title">📊 주요 데이터</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <!-- ✏️ 컬럼명 수정 -->
+          <th>직종</th>
+          <th>자동화 위험도</th>
+          <th>2030 고용 전망</th>
+          <th>대응 전략</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ✏️ 행 수정/추가 -->
+        <tr>
+          <td>데이터 입력·처리</td>
+          <td class="warn">매우 높음 (82%)</td>
+          <td class="warn">감소</td>
+          <td>재교육 시급</td>
+        </tr>
+        <tr>
+          <td>콜센터·고객상담</td>
+          <td class="warn">높음 (74%)</td>
+          <td class="warn">감소</td>
+          <td>고급 상담으로 전환</td>
+        </tr>
+        <tr>
+          <td>회계·경리 보조</td>
+          <td class="warn">높음 (68%)</td>
+          <td class="warn">부분 감소</td>
+          <td>분석 역량 강화</td>
+        </tr>
+        <tr>
+          <td>소프트웨어 개발</td>
+          <td class="highlight">중간 (45%)</td>
+          <td class="ok">증가</td>
+          <td>AI 도구 활용 능력</td>
+        </tr>
+        <tr>
+          <td>간호·돌봄</td>
+          <td class="ok">낮음 (12%)</td>
+          <td class="ok">큰 폭 증가</td>
+          <td>수요 급증 예상</td>
+        </tr>
+        <tr>
+          <td>교육·코칭</td>
+          <td class="ok">낮음 (18%)</td>
+          <td class="ok">증가</td>
+          <td>AI 보조 교육 도입</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 챕터 구성 / 목차 (유튜브면 타임스탬프) -->
+  <section>
+    <h2 class="section-title">📑 보고서 구성</h2>
+    <!-- ✏️ 유튜브 요약이면 시간 → "00:00", "12:34" 식으로 -->
+    <div class="chapter-list">
+      <div class="chapter">
+        <span class="chapter-time">p.1–20</span>
+        <div class="chapter-body">
+          <div class="chapter-title">Executive Summary — 핵심 결론</div>
+          <div class="chapter-desc">보고서 전체 요약. 시간 없으면 이것만.</div>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-time">p.21–55</span>
+        <div class="chapter-body">
+          <div class="chapter-title">자동화 위험 직종 분류</div>
+          <div class="chapter-desc">800개 직종별 자동화 가능성 분석.</div>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-time">p.56–90</span>
+        <div class="chapter-body">
+          <div class="chapter-title">국가별 영향 시나리오</div>
+          <div class="chapter-desc">한국 포함 주요 45개국 분석.</div>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-time">p.91–130</span>
+        <div class="chapter-body">
+          <div class="chapter-title">정책 권고안</div>
+          <div class="chapter-desc">재교육 투자, 사회 안전망 재설계 제안.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 관련 자료 -->
+  <section>
+    <h2 class="section-title">🔗 함께 보면 좋은 자료</h2>
+    <div class="link-list">
+      <!-- ✏️ 링크 추가/수정 -->
+      <a class="link-item" href="https://www.youtube.com" target="_blank">
+        <span class="link-icon">▶️</span>
+        <div>
+          <div class="link-title">유튜브: 맥킨지 보고서 10분 요약 (영어)</div>
+          <div class="link-url">youtube.com/watch?v=...</div>
+        </div>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a class="link-item" href="https://www.oecd.org" target="_blank">
+        <span class="link-icon">📊</span>
+        <div>
+          <div class="link-title">OECD: AI와 고용 미래 보고서 (2023)</div>
+          <div class="link-url">oecd.org/employment/ai-future-of-work</div>
+        </div>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a class="link-item" href="#" target="_blank">
+        <span class="link-icon">📰</span>
+        <div>
+          <div class="link-title">한겨레: "한국 일자리 3분의 1이 AI 위협권"</div>
+          <div class="link-url">hani.co.kr/arti/...</div>
+        </div>
+        <span class="link-arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 내 코멘트 -->
+  <section>
+    <h2 class="section-title">💬 내 생각</h2>
+    <!-- ✏️ 자유롭게 의견 작성 -->
+    <div class="my-comment">
+      <div class="comment-label">요약자 코멘트</div>
+      <p class="comment-text">
+        처음엔 "또 AI 위협론이네" 했는데, 데이터가 꽤 구체적이라 설득력이 있었어요. 특히 <strong>생성형 AI 등장 이후 영향 범위를 45% 상향했다</strong>는 부분이 인상 깊었습니다.<br><br>
+        개인적으로 가장 유용했던 부분은 직종별 자동화 위험도 표(p.38)인데, 내 직업이 어디에 해당하는지 바로 찾아볼 수 있어요. 관심 있는 분은 원본 pdf 직접 보시길 추천합니다.
+      </p>
+    </div>
+
+    <div class="tags">
+      <!-- ✏️ 태그 수정 -->
+      <span class="tag">#AI</span>
+      <span class="tag">#미래노동</span>
+      <span class="tag">#자동화</span>
+      <span class="tag">#맥킨지</span>
+      <span class="tag">#취업</span>
+      <span class="tag">#재교육</span>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<footer>
+  <!-- ✏️ 수정 -->
+  📄 맥킨지 AI 보고서 요약 · 작성: 홍길동 · 2024.03.15
+</footer>
+
+</body>
+</html>
